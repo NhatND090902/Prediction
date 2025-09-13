@@ -23,30 +23,30 @@
 h1 {
   text-align: center;
   color: #333;
-  margin-bottom: 30px;
-  font-size: 2.5em;
-  font-weight: 300;
+  margin-bottom: 10px;
+  font-size: 1.5em;
+  font-weight: 400;
 }
 
 h2 {
   color: #555;
-  margin-bottom: 20px;
+  margin-bottom: 8px;
   font-weight: 400;
+  font-size: 1.1em;
 }
 
 /* Input Form Styles */
 .input-form {
   background: #f8f9fa;
-  padding: 25px;
   border-radius: 10px;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
   border: 1px solid #e9ecef;
+  padding: 10px;
 }
 
 .input-row {
   display: flex;
   gap: 20px;
-  margin-bottom: 20px;
   flex-wrap: wrap;
 }
 
@@ -60,11 +60,12 @@ h2 {
   margin-bottom: 5px;
   font-weight: 500;
   color: #333;
+  font-size: 10px;
 }
 
 .input-group input {
   width: 100%;
-  padding: 12px;
+  padding: 7px 15px;
   border: 2px solid #ddd;
   border-radius: 8px;
   font-size: 16px;
@@ -92,7 +93,7 @@ button[type="submit"] {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   border: none;
-  padding: 12px 30px;
+  padding: 3px 7px;
   border-radius: 8px;
   font-size: 16px;
   font-weight: 500;
@@ -111,6 +112,231 @@ button[type="submit"]:hover {
   font-size: 12px;
   margin-top: 5px;
   font-style: italic;
+}
+
+/* Mode Toggle Styles */
+.mode-toggle-section {
+  background: transparent;
+  padding: 5px;
+  border-radius: 0;
+  border: none;
+  text-align: right;
+  position: relative;
+}
+
+.mode-toggle-section h3 {
+  display: none;
+}
+
+.mode-buttons {
+  display: flex;
+  gap: 0;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.mode-button {
+  background: #ddd;
+  color: transparent;
+  border: 1px solid #ccc;
+  padding: 0;
+  border-radius: 15px;
+  font-size: 0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 30px;
+  height: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
+  margin-left: 5px;
+}
+
+.mode-button::after {
+  content: '';
+  width: 11px;
+  height: 11px;
+  background: white;
+  border-radius: 50%;
+  position: absolute;
+  left: 2px;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.mode-button:hover {
+  background: #bbb;
+}
+
+.mode-button.active {
+  background: #4caf50;
+  border-color: #4caf50;
+}
+
+.mode-button.active::after {
+  left: 17px;
+}
+
+.mode-button.active:hover {
+  background: #45a049;
+}
+
+/* Number Selector Styles */
+.number-selector-section {
+  background: transparent;
+  padding: 5px;
+  border-radius: 3px;
+  margin-bottom: 5px;
+}
+
+.selected-numbers-display {
+  margin-bottom: 5px;
+}
+
+.selected-numbers-display label {
+  display: block;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 2px;
+  font-size: 10px;
+}
+
+.selected-numbers {
+  display: flex;
+  gap: 3px;
+  align-items: center;
+  min-height: 20px;
+  padding: 3px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+}
+
+.selected-number {
+  background: #28a745;
+  color: white;
+  padding: 2px 5px;
+  border-radius: 3px;
+  font-weight: 600;
+  font-size: 10px;
+  min-width: 15px;
+  text-align: center;
+}
+
+.placeholder {
+  color: #999;
+  font-style: italic;
+  font-size: 9px;
+}
+
+.number-buttons {
+  display: flex;
+  gap: 3px;
+  margin-bottom: 5px;
+  flex-wrap: wrap;
+}
+
+.number-button {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 3px 6px;
+  border-radius: 3px;
+  font-size: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  min-width: 50px;
+  height: 50px;
+}
+
+.number-button:hover:not(:disabled) {
+  background: #0056b3;
+}
+
+.number-button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.control-buttons {
+  display: flex;
+  gap: 3px;
+}
+
+.control-button {
+  padding: 2px 5px;
+  border: none;
+  border-radius: 3px;
+  font-size: 9px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.clear-button {
+  background: #dc3545;
+  color: white;
+  height: 50px;
+  width: 70px;
+}
+
+.clear-button:hover {
+  background: #c82333;
+}
+
+.remove-button {
+  background: #ffc107;
+  color: #212529;
+}
+
+.remove-button:hover:not(:disabled) {
+  background: #e0a800;
+}
+
+.remove-button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+/* Text Input Section */
+.text-input-section {
+  background: transparent;
+  padding: 5px;
+  border-radius: 3px;
+  margin-bottom: 5px;
+}
+
+.text-input-section h3 {
+  display: none;
+}
+
+.error-message-main {
+  background: #f8d7da;
+  color: #721c24;
+  padding: 3px;
+  border-radius: 3px;
+  margin: 3px 0;
+  border: 1px solid #f5c6cb;
+  font-size: 9px;
+}
+
+.submit-button {
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 4px 12px;
+  border-radius: 3px;
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  margin-top: 3px;
+}
+
+.submit-button:hover {
+  background: #218838;
 }
 
 /* Combined Analysis Section Styles */
@@ -144,14 +370,14 @@ button[type="submit"]:hover {
 .total-table th {
   background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
   color: white;
-  padding: 15px;
   font-weight: 500;
   text-align: center;
   font-size: 18px;
+  padding: 5px;
 }
 
 .total-table td {
-  padding: 15px;
+  padding: 5px;
   text-align: center;
   border-bottom: 1px solid #eee;
   font-size: 16px;
@@ -179,14 +405,14 @@ button[type="submit"]:hover {
 .consecutive-table th {
   background: linear-gradient(135deg, #fd7e14 0%, #e83e8c 100%);
   color: white;
-  padding: 15px;
+  padding: 5px;
   font-weight: 500;
   text-align: center;
   font-size: 16px;
 }
 
 .consecutive-table td {
-  padding: 15px;
+  padding: 5px;
   text-align: center;
   border-bottom: 1px solid #eee;
   font-size: 14px;
@@ -294,14 +520,14 @@ button[type="submit"]:hover {
 .next-prediction-table .current-numbers-header th {
   background: linear-gradient(135deg, #17a2b8 0%, #20c997 100%);
   color: white;
-  padding: 20px 15px;
+  padding: 5px;
   font-weight: 600;
   text-align: center;
   font-size: 20px;
 }
 
 .next-prediction-table td {
-  padding: 15px;
+  padding: 5px;
   text-align: center;
   border-bottom: 1px solid #eee;
   vertical-align: top;

@@ -3,9 +3,11 @@ import "./App.css";
 
 function App() {
   const [inputValue, setInputValue] = useState("");
+  const [selectedNumbers, setSelectedNumbers] = useState([]);
   const [records, setRecords] = useState([]);
   const [error, setError] = useState("");
   const [editingCell, setEditingCell] = useState(null);
+  const [inputMode, setInputMode] = useState("click"); // "click" or "text"
 
   const handleInputChange = (value) => {
     // Only allow numbers
@@ -18,22 +20,57 @@ function App() {
     }
   };
 
+  const handleNumberClick = (number) => {
+    if (selectedNumbers.length < 3) {
+      setSelectedNumbers([...selectedNumbers, number]);
+      setError("");
+    }
+  };
+
+  const handleClearNumbers = () => {
+    setSelectedNumbers([]);
+    setError("");
+  };
+
+  const handleRemoveLastNumber = () => {
+    setSelectedNumbers(selectedNumbers.slice(0, -1));
+    setError("");
+  };
+
+  const handleModeSwitch = (mode) => {
+    setInputMode(mode);
+    // Clear both inputs when switching modes
+    setSelectedNumbers([]);
+    setInputValue("");
+    setError("");
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (inputValue.length !== 3) {
-      setError("Please enter exactly 3 digits");
-      return;
-    }
+    let digits = [];
 
-    // Split the 3-digit number into individual digits
-    const digits = inputValue.split("").map((digit) => parseInt(digit));
+    // Check based on current input mode
+    if (inputMode === "click") {
+      if (selectedNumbers.length !== 3) {
+        setError("Please select exactly 3 numbers");
+        return;
+      }
+      digits = selectedNumbers;
+    } else {
+      if (inputValue.length !== 3) {
+        setError("Please enter exactly 3 digits");
+        return;
+      }
+      // Split the 3-digit number into individual digits
+      digits = inputValue.split("").map((digit) => parseInt(digit));
 
-    // Validate each digit is between 1-6
-    const hasInvalidDigits = digits.some((digit) => digit < 1 || digit > 6);
-    if (hasInvalidDigits) {
-      setError("Each digit must be between 1 and 6");
-      return;
+      // Validate each digit is between 1-6
+      const hasInvalidDigits = digits.some((digit) => digit < 1 || digit > 6);
+      if (hasInvalidDigits) {
+        setError("Each digit must be between 1 and 6");
+        return;
+      }
     }
 
     // Create new record
@@ -45,6 +82,7 @@ function App() {
 
     setRecords((prevRecords) => [newRecord, ...prevRecords]);
     setInputValue("");
+    setSelectedNumbers([]);
     setError("");
   };
 
@@ -172,7 +210,8 @@ function App() {
     }
 
     const latestRecord = records[0];
-    const historyRecords = records.slice(1); // Exclude the latest record
+    // Limit to latest 20 records (excluding the current latest record)
+    const historyRecords = records.slice(1, 26); // Get records 1-24 (excluding index 0)
 
     // Analyze each column for next number prediction
     const nextPredictions = [[], [], []];
@@ -181,7 +220,7 @@ function App() {
       const currentNumber = latestRecord.numbers[col];
       const nextNumbers = [];
 
-      // Find all occurrences of currentNumber in this column in history
+      // Find all occurrences of currentNumber in this column in history (limited to 20 records)
       for (let i = 0; i < historyRecords.length; i++) {
         if (historyRecords[i].numbers[col] === currentNumber) {
           // Look for the next record down (closer to present) - that's i-1 since records are in reverse chronological order
@@ -284,23 +323,101 @@ function App() {
 
         {/* Input Form */}
         <form onSubmit={handleSubmit} className="input-form">
-          <h2>Enter 3-Digit Number (each digit 1-6)</h2>
-          <div className="input-row">
-            <div className="input-group">
-              <label>3-Digit Number:</label>
-              <input
-                type="text"
-                maxLength="3"
-                value={inputValue}
-                onChange={(e) => handleInputChange(e.target.value)}
-                placeholder="123"
-                className={error ? "error" : ""}
-              />
-              {error && <span className="error-message">{error}</span>}
-              <small>Example: 123 will become 1, 2, 3</small>
+          {/* Mode Toggle Button */}
+          <div className="mode-toggle-section">
+            <div className="mode-buttons">
+              <button
+                type="button"
+                className={`mode-button ${
+                  inputMode === "text" ? "active" : ""
+                }`}
+                onClick={() =>
+                  handleModeSwitch(inputMode === "click" ? "text" : "click")
+                }
+                title={
+                  inputMode === "click"
+                    ? "Switch to Type Mode"
+                    : "Switch to Click Mode"
+                }
+              ></button>
             </div>
           </div>
-          <button type="submit">Add Record</button>
+
+          {/* Click Numbers Mode */}
+          {inputMode === "click" && (
+            <div className="number-selector-section">
+              <div className="selected-numbers-display">
+                <div className="selected-numbers">
+                  {selectedNumbers.length > 0 ? (
+                    selectedNumbers.map((num, index) => (
+                      <span key={index} className="selected-number">
+                        {num}
+                      </span>
+                    ))
+                  ) : (
+                    <span className="placeholder">
+                      Click numbers below to select...
+                    </span>
+                  )}
+                </div>
+              </div>
+
+              <div className="number-buttons">
+                {[1, 2, 3, 4, 5, 6].map((number) => (
+                  <button
+                    key={number}
+                    type="button"
+                    className="number-button"
+                    onClick={() => handleNumberClick(number)}
+                    disabled={selectedNumbers.length >= 3}
+                  >
+                    {number}
+                  </button>
+                ))}
+                <div className="control-buttons">
+                  <button
+                    type="button"
+                    className="control-button clear-button"
+                    onClick={handleClearNumbers}
+                  >
+                    Clear All
+                  </button>
+                  <button
+                    type="button"
+                    className="control-button remove-button"
+                    onClick={handleRemoveLastNumber}
+                    disabled={selectedNumbers.length === 0}
+                  >
+                    Remove Last
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Text Input Mode */}
+          {inputMode === "text" && (
+            <div className="text-input-section">
+              <div className="input-row">
+                <div className="input-group">
+                  <input
+                    type="text"
+                    maxLength="3"
+                    value={inputValue}
+                    onChange={(e) => handleInputChange(e.target.value)}
+                    placeholder="123"
+                    className={error ? "error" : ""}
+                    autoFocus
+                  />
+                </div>
+              </div>
+            </div>
+          )}
+
+          {error && <div className="error-message-main">{error}</div>}
+          <button type="submit" className="submit-button">
+            Add Record
+          </button>
         </form>
 
         {/* Combined Analysis Section */}
