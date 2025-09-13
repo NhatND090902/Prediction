@@ -45,6 +45,16 @@ function App() {
     setError("");
   };
 
+  const handleClearHistory = () => {
+    if (
+      window.confirm(
+        "Are you sure you want to clear history and keep only the last 20 records?"
+      )
+    ) {
+      setRecords((prevRecords) => prevRecords.slice(0, 20));
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -549,7 +559,17 @@ function App() {
         {/* Records Table */}
         {records.length > 0 && (
           <div className="records-section">
-            <h2>History Records</h2>
+            <div className="records-header">
+              <h2>History Records ({records.length})</h2>
+              <button
+                type="button"
+                className="clear-history-button"
+                onClick={handleClearHistory}
+                title="Keep only last 20 records"
+              >
+                Clear History
+              </button>
+            </div>
             <table className="records-table">
               <thead>
                 <tr>

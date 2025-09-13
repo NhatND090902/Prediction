@@ -573,6 +573,40 @@ button[type="submit"]:hover {
   overflow-x: auto;
 }
 
+.records-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 0 5px;
+}
+
+.records-header h2 {
+  margin: 0;
+  font-size: 1.2em;
+  color: #333;
+}
+
+.clear-history-button {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.clear-history-button:hover {
+  background: #c82333;
+}
+
+.clear-history-button:active {
+  background: #bd2130;
+}
+
 .records-table {
   width: 100%;
   border-collapse: collapse;
